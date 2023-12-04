@@ -1,0 +1,15 @@
+name: signfiles
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: MichaelVoelkel/code-sign-action@v1
+        with:
+          certificate: '${{ secrets.CERTIFICATE }}'
+          certificate-password: '${{ secrets.CERTIFICATE_PASSWORD }}'
+          certificate-sha1: '${{ secrets.CERTIFICATE_SHA1 }}'
+          folder: 'files'
+          recursive: true
