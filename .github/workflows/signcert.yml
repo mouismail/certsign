@@ -6,10 +6,13 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: MichaelVoelkel/code-sign-action@v1
+      - uses: 'FKLC/sign-files-action@v1.0.0'
         with:
-          certificate: '${{ secrets.CERTIFICATE }}'
-          certificate-password: '${{ secrets.CERTIFICATE_PASSWORD }}'
-          certificate-sha1: '${{ secrets.CERTIFICATE_SHA1 }}'
-          folder: 'files'
-          recursive: true
+          privateKey: ${{ secrets.CERTIFICATE }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          algorithm: 'RSA-SHA256'
+          extension: '.sig'
+          outputFolder: './signed'
+          files: |
+            builds/**
+    
