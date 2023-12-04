@@ -6,14 +6,13 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: dlemstra/code-sign-action@v1
+      - uses: DanaBear/code-sign-action@v4
         with:
           certificate: ${{ secrets.CERTIFICATE }}
           password: ${{ secrets.CERTIFICATE_PASSWORD }}
+          certificatesha1: '{{ secrets.CERTHASH }}'
+          certificatename: '{{ secrets.CERTNAME }}'
           folder: 'files'
           recursive: true
-          outputFolder: './'
-          files: |
-            './builds/test1'
-          description: 'Test1'
+          
     
