@@ -4,15 +4,16 @@ on: workflow_dispatch
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
-      - uses: 'FKLC/sign-files-action@v1.0.0'
+      - uses: dlemstra/code-sign-action@v1
         with:
-          privateKey: ${{ secrets.CERTIFICATE }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          algorithm: 'RSA-SHA256'
-          extension: '.sig'
+          certificate: ${{ secrets.CERTIFICATE }}
+          password: ${{ secrets.CERTIFICATE_PASSWORD }}
+          folder: 'files'
+          recursive: true
           outputFolder: './'
           files: |
-            './builds/**'
+            './builds/test1'
+          description: 'Test1'
     
