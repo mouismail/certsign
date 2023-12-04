@@ -14,5 +14,5 @@ jobs:
           extension: '.sig'
           outputFolder: './signed'
           files: |
-            builds/**
+            './builds/**'
     
