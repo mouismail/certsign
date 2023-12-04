@@ -12,7 +12,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           algorithm: 'RSA-SHA256'
           extension: '.sig'
-          outputFolder: './signed'
+          outputFolder: './'
           files: |
             './builds/**'
     
