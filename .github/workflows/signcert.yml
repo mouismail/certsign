@@ -10,10 +10,14 @@ jobs:
       - uses: sigstore/cosign-installer@main
 
       - name: Write signing key to disk (only needed for `cosign sign --key`)
-        run: echo "${{ secrets.SIGNING_SECRET }}" > cosign.key
+        run: echo "${{ secrets.COSIGN_PRIVATE_KEY }}" > cosign.key
+      
       - name: Sign artifact
         run: |
-          cosign sign --key cosign.key files/file1
+          cosign sign --key cosign.key \
+          -a "workflow=${{ github.workflow }}" \
+          -a "repo=${{ github.repository }}" \
+          ghcr.io/kevfoste/certsign:image-latest
         env:
           COSIGN_PASSWORD: "${{ secrets.COSIGN_PASSWORD }}"
           
