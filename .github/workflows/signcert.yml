@@ -4,15 +4,17 @@ on: workflow_dispatch
 
 jobs:
   build:
-    runs-on: windows-latest
     steps:
-      - uses: DanaBear/code-sign-action@v4
-        with:
-          certificate: ${{ secrets.CERTIFICATE }}
-          password: ${{ secrets.CERTIFICATE_PASSWORD }}
-          certificatesha1: '{{ secrets.CERTHASH }}'
-          certificatename: '{{ secrets.CERTNAME }}'
-          folder: 'files'
-          recursive: true
+      - uses: sigstore/cosign-installer@main
+
+      - name: Write signing key to disk (only needed for `cosign sign --key`)
+        run: echo "${{ secrets.SIGNING_SECRET }}" > cosign.key
+
+      - name: Sign artifact
+        run: |
+          cosign sign --key cosign.key \
+            https://github.com/kevfoste/certsign/blob/main/files/file1
+        env:
+          COSIGN_PASSWORD: ""
           
     
