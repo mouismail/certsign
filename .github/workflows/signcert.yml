@@ -11,9 +11,6 @@ jobs:
 
       - name: Write signing key to disk (only needed for `cosign sign --key`)
         run: echo "${{ secrets.SIGNING_SECRET }}" > cosign.key
-      - name: Grab artifact
-        run: |
-          cat files/file1 > artifactfile
       - name: Sign artifact
         run: |
           cosign sign --key cosign.key files/file1
