@@ -16,6 +16,6 @@ jobs:
           cosign sign --key cosign.key \
             https://github.com/kevfoste/certsign/blob/main/files/file1
         env:
-          COSIGN_PASSWORD: ""
+          COSIGN_PASSWORD: "${{ secrets.COSIGN_PASSWORD }}"
           
     
