@@ -17,7 +17,7 @@ jobs:
           cosign sign --key cosign.key \
           -a "workflow=${{ github.workflow }}" \
           -a "repo=${{ github.repository }}" \
-          ghcr.io/kevfoste/certsign:signdemo-ghcr:latest
+          ghcr.io/kevfoste/certsign/signdemo-ghcr:latest
         env:
           COSIGN_PASSWORD: "${{ secrets.COSIGN_PASSWORD }}"
           
