@@ -54,7 +54,6 @@ jobs:
           
       - name: Sign artifact with cosign
         run: |
-          echo "tags and digest ${TAGS}@${DIGEST}"
           cosign sign --yes --key cosign.key "${TAGS}"
           env:
             TAGS: ${{ steps.docker_meta.outputs.tags }}
