@@ -55,12 +55,11 @@ jobs:
       - name: Sign artifact with cosign
         run: |
           echo "tags and digest ${TAGS}@${DIGEST}"
-          cosign sign --yes --key cosign.key "${TAGS}@${DIGEST}"
+          cosign sign --yes --key cosign.key "${TAGS}"
           env:
             TAGS: ${{ steps.docker_meta.outputs.tags }}
             COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
             COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-            DIGEST: ${{ steps.build-and-push.outputs.digest }}
             
 
          
