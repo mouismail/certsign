@@ -54,7 +54,7 @@ jobs:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           COSIGN_REPOSITORY: ${{ steps.docker_meta.outputs.images }}
         run: 
-          cosign sign --yes --key "${COSIGN_PRIVATE_KEY}" "${TAGS}"
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}"
                
 
          
