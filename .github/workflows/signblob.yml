@@ -1,0 +1,37 @@
+name: signfiles
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+    
+    name: Sign files
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@main
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_TOKEN }}
+
+      - name: Sign blob and upload to GitHub Container Registry
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+          COSIGN_REPOSITORY: ${{ github.repository }}
+        run: 
+          cosign sign-blob --yes --key env://COSIGN_PRIVATE_KEY ${{ github.workspace }}builds/myfile.dll | docker push ghcr.io/${{ github.repository }}/myfile.dll:latest
+
+      
