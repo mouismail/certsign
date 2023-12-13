@@ -42,5 +42,5 @@ jobs:
 
       - name: Verify signature
         run:
-          cosign verify -key env:://COSIGN_PUBLIC_KEY  ghcr.io/${{ github.repository }}/myfile.dll:latest
+          cosign verify -key env://COSIGN_PUBLIC_KEY  ghcr.io/${{ github.repository }}/myfile.dll:latest
       
