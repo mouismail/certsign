@@ -38,7 +38,7 @@ jobs:
 
       - name: Upload signed blob to GitHub Container Registry
         run:
-          cosign upload blob -f ${{ github.workspace }}/builds/myfile.dll ghcr.io/${{ github.repository }}/myfile.dll:latest
+          cosign upload blob -f ${{ github.workspace }}/builds/myfile.dll ghcr.io/${{ github.repository }}/myfile.dll
 
       - name: Verify signature
         env:
