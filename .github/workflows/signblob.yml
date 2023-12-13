@@ -26,23 +26,28 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
-      - name: Set up env cosign
+      - name: Upload blob to registry
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           COSIGN_REPOSITORY: ${{ github.repository }}
-          
-      
-        run: 
-          cosign sign-blob --yes --key env://COSIGN_PRIVATE_KEY ${{ github.workspace }}/builds/myfile.dll 
 
-      - name: Upload signed blob to GitHub Container Registry
         run:
           cosign upload blob -f ${{ github.workspace }}/builds/myfile.dll ghcr.io/${{ github.repository }}/myfile.dll
+
+      - name: Sign blob
+        env:
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+          COSIGN_REPOSITORY: ${{ github.repository }}
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      
+        run:
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/myfile.dll
 
       - name: Verify signature
         env:
           COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+        
         run:
-          cosign verify --key env://COSIGN_PUBLIC_KEY  ghcr.io/${{ github.repository }}/myfile.dll
+          cosign verify --key env://COSIGN_PUBLIC_KEY  ghcr.io/${{ github.repository }}/myfile.dll:latest
       
