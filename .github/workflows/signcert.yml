@@ -46,6 +46,12 @@ jobs:
             push: true
             tags: ${{ steps.docker_meta.outputs.tags }} 
 
+      - name: Create env file
+        run: |
+          echo "COSIGN_PASSWORD=${{ secrets.COSIGN_PASSWORD }}" >> $GITHUB_ENV
+          echo "COSIGN_REPOSITORY=${{ steps.docker_meta.outputs.images }}" >> $GITHUB_ENV
+          echo "COSIGN_PRIVATE_KEY=${{ secrets.COSIGN_PRIVATE_KEY }}" >> $GITHUB_ENV
+          
       - name: Sign artifact with cosign
         run: |
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}"
