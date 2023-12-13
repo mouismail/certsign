@@ -51,7 +51,11 @@ jobs:
         shell: bash
         env:
           KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-          
+      
+      - name: show my key
+        run: 'cat cosign.key'
+        shell: bash
+
       - name: Sign artifact with cosign
         run: |
           cosign sign --yes --key cosign.key "${TAGS}"
