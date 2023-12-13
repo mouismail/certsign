@@ -31,6 +31,7 @@ jobs:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           COSIGN_REPOSITORY: ${{ github.repository }}
+          COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
       
         run: 
           cosign sign-blob --yes --key env://COSIGN_PRIVATE_KEY ${{ github.workspace }}/builds/myfile.dll 
@@ -39,4 +40,7 @@ jobs:
         run:
           cosign upload blob -f ${{ github.workspace }}/builds/myfile.dll ghcr.io/${{ github.repository }}/myfile.dll:latest
 
+      - name: Verify signature
+        run:
+          cosign verify -key env:://COSIGN_PUBLIC_KEY  ghcr.io/${{ github.repository }}/myfile.dll:latest
       
