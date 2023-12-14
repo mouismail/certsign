@@ -41,7 +41,7 @@ jobs:
       
         run:
           //cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/myfiledll:latest
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "ghcr.io/kevfoste/certsign/myfiledll@sha256:1ceaebc66414ab953fc99820137bf1c383420949858b66071fb203e542b0f5f4"
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "ghcr.io/kevfoste/certsign/myfiledll"
 
       - name: Verify signature
         
