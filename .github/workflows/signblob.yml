@@ -40,7 +40,7 @@ jobs:
       - name: Sign blob
       
         run:
-          //cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/myfiledll:latest
+          # cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/myfiledll:latest
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY "ghcr.io/kevfoste/certsign/myfiledll"
 
       - name: Verify signature
