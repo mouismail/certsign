@@ -4,9 +4,8 @@ on: workflow_dispatch
 
 env:
     COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-    COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-    COSIGN_REPOSITORY: ${{ github.repository }}
     COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }} 
+    COSIGN_REPOSITORY: ${{ github.repository }}
 
 jobs:
   build:
@@ -32,17 +31,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
-      #- name: Upload blob to registry
+      - name: Upload blob to registry
 
-        #run:
-         # cosign upload blob -f ${{ github.workspace }}/builds/myfiledll ghcr.io/${{ github.repository }}/myfiledll
+        run:
+          cosign upload blob -f ${{ github.workspace }}/builds/myfiledll ghcr.io/${{ github.repository }}/myfiledll
 
+      - name: Write signing key to disk
+        run: echo "${{ secrets.COSIGN_PRIVATE_KEY }}" > cosign.key
+        
       - name: Sign blob
       
         run:
-          # cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/myfiledll:latest
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "ghcr.io/kevfoste/certsign/myfiledll"
+          cosign sign --yes --key cosign.key  ghcr.io/${{ github.repository }}/myfiledll
 
+        env:
+          COSIGN_PASSWORD: ""
+          
       - name: Verify signature
         
         run:
