@@ -42,7 +42,7 @@ jobs:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
       
         run:
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/myfiledll
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/myfiledll:latest
 
       - name: Verify signature
         env:
