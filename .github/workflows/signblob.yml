@@ -32,15 +32,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
-      - name: Upload blob to registry
+      #- name: Upload blob to registry
 
-        run:
-          cosign upload blob -f ${{ github.workspace }}/builds/myfiledll ghcr.io/${{ github.repository }}/myfiledll
+        #run:
+         # cosign upload blob -f ${{ github.workspace }}/builds/myfiledll ghcr.io/${{ github.repository }}/myfiledll
 
       - name: Sign blob
       
         run:
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/myfiledll:latest
+          //cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/myfiledll:latest
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "ghcr.io/kevfoste/certsign/myfiledll@sha256:1ceaebc66414ab953fc99820137bf1c383420949858b66071fb203e542b0f5f4"
 
       - name: Verify signature
         
