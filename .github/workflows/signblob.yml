@@ -35,7 +35,7 @@ jobs:
       - name: Upload blob to registry
 
         run:
-          cosign upload blob -f ${{ github.workspace }}/builds/myfile.dll ghcr.io/${{ github.repository }}/myfiledll
+          cosign upload blob -f ${{ github.workspace }}/builds/myfiledll ghcr.io/${{ github.repository }}/myfiledll
 
       - name: Sign blob
       
