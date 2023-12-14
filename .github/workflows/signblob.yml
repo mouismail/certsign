@@ -45,11 +45,10 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
-      # - name: Sign blob
-      
+
+      - name: Sign blob
         run:
           cosign sign --yes --key cosign.key  ghcr.io/${{ github.repository }}/myfiledll
-
         env:
           COSIGN_PASSWORD: ""
           
