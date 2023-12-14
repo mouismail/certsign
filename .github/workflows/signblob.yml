@@ -2,6 +2,12 @@ name: signblobs
 
 on: workflow_dispatch
 
+env:
+    COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+    COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+    COSIGN_REPOSITORY: ${{ github.repository }}
+    COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }} 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,26 +33,16 @@ jobs:
           password: ${{ secrets.GH_TOKEN }}
 
       - name: Upload blob to registry
-        env:
-          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-          COSIGN_REPOSITORY: ${{ github.repository }}
 
         run:
           cosign upload blob -f ${{ github.workspace }}/builds/myfile.dll ghcr.io/${{ github.repository }}/myfiledll
 
       - name: Sign blob
-        env:
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-          COSIGN_REPOSITORY: ${{ github.repository }}
-          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
       
         run:
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/myfiledll:latest
 
       - name: Verify signature
-        env:
-          COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
         
         run:
           cosign verify --key env://COSIGN_PUBLIC_KEY  ghcr.io/${{ github.repository }}/myfiledll:latest
