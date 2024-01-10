@@ -48,7 +48,7 @@ jobs:
 
       - name: Sign blob
         run:
-          cosign sign --yes --key cosign.key  ghcr.io/${{ github.repository }}/myfiledll
+          cosign sign --yes --key cosign.key  ghcr.io/${{ github.repository }}/myfiledll:latest
         env:
           COSIGN_PASSWORD: ""
           
