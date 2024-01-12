@@ -1,4 +1,4 @@
-name: signfiles
+name: signimage
 
 on: workflow_dispatch
 
