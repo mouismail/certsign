@@ -55,7 +55,7 @@ jobs:
           COSIGN_REPOSITORY: ${{ steps.docker_meta.outputs.images }}
         run: |
           echo "${TAGS}"
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/kevfoste/certsign/signdemo
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}"
                
 
          
