@@ -47,10 +47,11 @@ jobs:
           password: ${{ secrets.GH_TOKEN }}
 
       - name: Sign blob
-        run:
-          cosign sign --yes --key cosign.key  ghcr.io/${{ github.repository }}/myfiledll:latest
         env:
-          COSIGN_PASSWORD: ""
+           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+           COSIGN_PASSWORD: ""
+        run:
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY  ghcr.io/${{ github.repository }}/myfiledll:latest          
           
       - name: Verify signature
         
