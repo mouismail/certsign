@@ -5,6 +5,7 @@ on: workflow_dispatch
 env:
     COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
     COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }} 
+    COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
     COSIGN_REPOSITORY: ${{ github.repository }}
 
 jobs:
@@ -44,9 +45,6 @@ jobs:
       - name: Print BLOBTAG
         run: echo "BLOBTAG is ${{env.BLOBTAG}}"
         
-      - name: Write signing key to disk
-        run: echo "${{ secrets.COSIGN_PRIVATE_KEY }}" > cosign.key
-        
       - name: Login to GitHub Container Registry and sign blob
         uses: docker/login-action@v3
         with:
@@ -54,11 +52,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
-      - name: Sign blob
-        env:
-           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-           COSIGN_PASSWORD: ""
-        run:
+      - name: Sign blob with cosign
+           
+        run: |
+          echo "${{env.BLOBTAG}}"
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY  "${{env.BLOBTAG}}"          
           
       - name: Verify signature
