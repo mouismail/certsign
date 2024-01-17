@@ -37,12 +37,12 @@ jobs:
           cosign upload blob --output-file tagname.txt -f ${{ github.workspace }}/builds/myfiledll ghcr.io/${{ github.repository }}/myfiledll
       
       - name: Store BLOBTAG
-      
-        env: 
-           BLOBTAG: $(cat tagname.txt)
+        run: |
+          TAG=$(cat tagename.txt)
+          echo "BLOBTAG=$TAG" >> $GITHUB_ENV
            
       - name: Print BLOBTAG
-        run: echo "BLOBTAG is $BLOBTAG"
+        run: echo "BLOBTAG is ${{env.BLOBTAG}}"
         
       - name: Write signing key to disk
         run: echo "${{ secrets.COSIGN_PRIVATE_KEY }}" > cosign.key
@@ -59,7 +59,7 @@ jobs:
            COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
            COSIGN_PASSWORD: ""
         run:
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY  "${BLOBTAG}"          
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY  "${{env.BLOBTAG}}"          
           
       - name: Verify signature
         
