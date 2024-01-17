@@ -38,7 +38,7 @@ jobs:
       
       - name: Store BLOBTAG
         run: |
-          TAG=$(cat tagename.txt)
+          TAG=$(cat tagname.txt)
           echo "BLOBTAG=$TAG" >> $GITHUB_ENV
            
       - name: Print BLOBTAG
