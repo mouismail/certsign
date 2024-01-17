@@ -1,4 +1,4 @@
-name: signblobs
+name: signblob
 
 on: workflow_dispatch
 
