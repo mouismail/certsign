@@ -56,7 +56,7 @@ jobs:
            
         run: |
           echo "${{env.BLOBTAG}}"
-          cosign sign-blob --yes --key env://COSIGN_PRIVATE_KEY  "${{env.BLOBTAG}}"          
+          cosign sign-blob --yes --key env://COSIGN_PRIVATE_KEY  ghcr.io/kevfoste/certsign/myfiledll:latest         
           
       - name: Verify signature
         
