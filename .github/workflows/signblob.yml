@@ -2,11 +2,7 @@ name: signblob
 
 on: workflow_dispatch
 
-env:
-    COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-    COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }} 
-    COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-    COSIGN_REPOSITORY: ${{ github.repository }}
+
 
 jobs:
   build:
@@ -43,7 +39,12 @@ jobs:
           echo "TAGS=$TAG" >> $GITHUB_ENV
            
       - name: Sign blob with cosign
-           
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }} 
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+          COSIGN_REPOSITORY: ${{ github.repository }}     
+          
         run: |
           echo "TAGS is ${{env.TAGS}}"
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY  ${{env.TAGS}}
