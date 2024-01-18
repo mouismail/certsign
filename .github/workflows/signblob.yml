@@ -35,7 +35,7 @@ jobs:
       - name: Upload blob to registry
 
         run:
-          cosign upload blob --output-file tagname.txt -f ${{ github.workspace }}/builds/myfiledll ghcr.io/${{ github.repository }}/myfiledll
+          cosign upload blob --output-file tagname.txt -f ${{ github.workspace }}/builds/test.zip ghcr.io/${{ github.repository }}/myfiledll
       
       - name: Store BLOBTAG
         run: |
