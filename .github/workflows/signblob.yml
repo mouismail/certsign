@@ -35,7 +35,7 @@ jobs:
       - name: Upload blob to registry
 
         run:
-          cosign upload blob --output-file tagname.txt -f ${{ github.workspace }}/builds/test.zip ghcr.io/${{ github.repository }}/myfiledll
+          cosign upload blob --output-file tagname.txt -f ${{ github.workspace }}/builds/test.zip ghcr.io/${{ github.repository }}/test.zip
       
       - name: Store BLOBTAG
         run: |
@@ -54,5 +54,5 @@ jobs:
       - name: Verify signature
         
         run:
-          cosign verify --key env://COSIGN_PUBLIC_KEY  ghcr.io/${{ github.repository }}/myfiledll:latest
+          cosign verify --key env://COSIGN_PUBLIC_KEY  ghcr.io/${{ github.repository }}/test.zip:latest
       
