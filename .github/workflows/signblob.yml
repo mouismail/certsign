@@ -40,16 +40,16 @@ jobs:
       - name: Store BLOBTAG
         run: |
           TAG=$(cat tagname.txt)
-          echo "BLOBTAG=$TAG" >> $GITHUB_ENV
+          echo "TAGS=$TAG" >> $GITHUB_ENV
            
-      - name: Print BLOBTAG
-        run: echo "BLOBTAG is ${{env.BLOBTAG}}"
+      - name: Print TAGS
+        run: echo "TAGS is ${{env.BLOBTAG}}"
 
       - name: Sign blob with cosign
            
         run: |
-          echo "${{env.BLOBTAG}}"
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY  ${{env.BLOBTAG}}
+          echo "${{env.TAGS}}"
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY  ${{env.TAGS}}
           
       - name: Verify signature
         
