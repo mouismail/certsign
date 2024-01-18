@@ -37,18 +37,15 @@ jobs:
         run:
           cosign upload blob --output-file tagname.txt -f ${{ github.workspace }}/builds/test.zip ghcr.io/${{ github.repository }}/test.zip
       
-      - name: Store BLOBTAG
+      - name: Store TAGS from output file
         run: |
           TAG=$(cat tagname.txt)
           echo "TAGS=$TAG" >> $GITHUB_ENV
            
-      - name: Print TAGS
-        run: echo "TAGS is ${{env.BLOBTAG}}"
-
       - name: Sign blob with cosign
            
         run: |
-          echo "${{env.TAGS}}"
+          echo "TAGS is ${{env.TAGS}}"
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY  ${{env.TAGS}}
           
       - name: Verify signature
