@@ -26,7 +26,7 @@ jobs:
         uses: sigstore/cosign-installer@main
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -44,13 +44,6 @@ jobs:
            
       - name: Print BLOBTAG
         run: echo "BLOBTAG is ${{env.BLOBTAG}}"
-        
-      - name: Login to GitHub Container Registry and sign blob
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GH_TOKEN }}
 
       - name: Sign blob with cosign
            
