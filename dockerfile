@@ -1,9 +1,10 @@
-FROM alpine:latest
+FROM alpine
 
-RUN apk update && apk upgrade
+RUN apk add --no-cache bash
 
-RUN apk add cowsay --repository <http://dl-3.alpinelinux.org/alpine/edge/testing/> --allow-untrusted
+WORKDIR /app
 
-RUN apk add cowsay 
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
 
-CMD ["cowsay", "Hello, Docker!"]
+ENTRYPOINT [ "/app/entrypoint.sh" ]
